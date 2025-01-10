@@ -1,0 +1,40 @@
+name: Dockerized Next.js CI
+
+on:
+  push:
+    branches:
+      - main
+    pull_request:
+
+jobs:
+  build-and-test: 
+    runs-on: ubuntu-latest
+
+    steps:
+      # step 1: checkout the code
+      - name: Checkout code
+      uses: actions/checkout@v3
+
+      # step 2: setup docker
+      - name: Setup Docker
+        uses: docker/setup-action@v2
+        with:
+          node-version: '14'
+        
+      # step 3: build the docker image
+      - name: Build Docker image
+        run: docker compose build
+
+      # step 4: run docker container
+      - name: Run Docker container
+        run: docker compose up -d
+
+      # step 5: test app
+      - name: Test app
+        run: |
+          sleep 10 
+          curl -f http://localhost:3000 || exit 1
+
+      # step 6: stop and remove the container
+      - name: Stop and remove container
+        run: docker compose down
