@@ -21,7 +21,7 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       # Step 3: Build the Docker image
-      - name: Hey gabi!
+      - name: Build Docker image
         run: docker compose build
 
       # Step 4: Run the Docker container
