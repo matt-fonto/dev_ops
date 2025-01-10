@@ -112,3 +112,57 @@ services:
     environment:
       NODE_ENV: development
 ```
+
+### Github Actions
+
+- Once the application is dockerized, create the github workflow: ./github/workflows/[ci-name].yml
+- Workflow has jobs, jobs have steps and steps have actions
+
+```yml
+# appears in the Actions tab on Github
+name: [workflow-name]
+
+# on: defines the events that trigger the workflow
+# when should it run? => pushes? | pull requests ? | scheduled times?
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+# jobs: collections of tasks that make up the workflow
+jobs:
+  # job 1: build-and-test
+  build-and-test:
+    runs-on: ubuntu-latest # specify the environment the job will run
+
+    # steps: sequence of actions | commands within a job
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout code
+        # uses: reusable action or prebuilt functionality. It pulls a specific actions from the Github actions marketplace or Github-provided actions
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Docker
+      - name: Setup Docker
+        uses: docker/setup-buildx-action@v2
+
+      # Step 3: Build the Docker image
+      - name: Build Docker image
+        # run: executes a shell command or script. Defines custom commands
+        run: docker compose build
+
+      # Step 4: Run the Docker container
+      - name: Run Docker container
+        run: docker compose up -d
+
+      # Step 5: Test app
+      - name: Test app
+        run: |
+          sleep 10
+          curl -f http://localhost:3000 || exit 1
+
+      # Step 6: Stop and remove the container
+      - name: Stop and remove container
+        run: docker compose down
+```
