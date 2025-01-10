@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  web:
+    image: dev-ops-nextjs
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    container_name: container-dev-ops-nextjs
+    volumes:
+      - .:/app # Mount current directory to /app in the container
+      - /app/node_modules # Avoid overwriting `node_modules` inside the container
+    environment:
+      NODE_ENV: development

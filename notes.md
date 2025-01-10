@@ -88,3 +88,27 @@
 - First step to DevOps automation and helps with code collaboration
 - It provides confidence and speed in making changes because we know previous functionality won't be broken by new ones
 - Master branch -> feature 1 branch
+
+### Docker
+
+- 1. Create docker file and build the image `docker build -t [image-name] .
+- 2. Create docker-compose.yaml to make it easier running the container
+
+```yml
+version: "3.8"
+
+services:
+  web:
+    image: dev-ops-nextjs
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    container_name: container-dev-ops-nextjs
+    volumes:
+      - .:/app # Mount current directory to /app in the container
+      - /app/node_modules # Avoid overwriting `node_modules` inside the container
+    environment:
+      NODE_ENV: development
+```
