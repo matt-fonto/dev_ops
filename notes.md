@@ -179,3 +179,28 @@ jobs:
 - 1 is interpreted as number. If you want it to be interpreted as boolean use true
 
 ## Section 4: Code coverage
+
+- Quantitatively measures how comprehensive a code base's tests are
+- Increasing code coverage increases stability and reduces bugs
+- Functions have:
+- Syntax lines: basically curly braces
+- Logic lines: have side effects. If you remove|change them, the behavior changes
+- Branch lines: for loops and if-statements. They sequential order of the instructions
+- code_coverage = non_syntax_code_lines_with_tests / non_syntax_code_lines
+- Branch coverage: instead of measuring how many lines of code are tested, it measures groups of lines
+- How many branches in a function body is tested
+- Don't optimize for code coverage until that's important
+
+### When is code coverage important?
+
+- Product has users and users might leave if affected by bugs
+- Working with developers that aren't immediately trustworthy (contractors/interns)
+- Large codebase with many testable components
+
+### Rules for code coverage
+
+1. Code coverage must not decrease: as you increase the code base, you should also increase the code coverage for it. The ratio shouldn't go down
+
+- With this policy, features will be shipped more slowly
+
+2. Code owners for test files: changing the testing implementation can only be approved by a senior developer
