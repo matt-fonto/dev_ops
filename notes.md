@@ -3,6 +3,7 @@
 - Section 1: DevOps Intro
 - Section 2: TDD
 - Section 3: CI
+- Section 4: Code coverage
 
 ## Section 1: DevOps Intro
 
@@ -82,6 +83,7 @@
 
 - Continuous Integration: Pushing changes to a central git repo
 - Changes are verified by an automatic software that runs comprehensive tess to insure no major issues appear
+- Every time a developer proposes some changes, we should run some tests before we can safely merge the code
 
 ### Benefits of CI
 
@@ -113,10 +115,13 @@ services:
       NODE_ENV: development
 ```
 
+- Docker compose is fundamentally a way to run multiple containers
+
 ### Github Actions
 
 - Once the application is dockerized, create the github workflow: ./github/workflows/[ci-name].yml
 - Workflow has jobs, jobs have steps and steps have actions
+- This allows us to run a battery of tests on specific events: push, pr, scheduled, etc.
 
 ```yml
 # appears in the Actions tab on Github
@@ -166,3 +171,11 @@ jobs:
       - name: Stop and remove container
         run: docker compose down
 ```
+
+### Yaml
+
+- Yaml is fundamentally a combination of JSON with Python
+- Root object is equivalent to an object/dictionary
+- 1 is interpreted as number. If you want it to be interpreted as boolean use true
+
+## Section 4: Code coverage
