@@ -4,6 +4,7 @@
 - Section 2: TDD
 - Section 3: CI
 - Section 4: Code coverage
+- Section 5: Linting best practices
 
 ## Section 1: DevOps Intro
 
@@ -204,3 +205,19 @@ jobs:
 - With this policy, features will be shipped more slowly
 
 2. Code owners for test files: changing the testing implementation can only be approved by a senior developer
+
+## Section 5: Linting Best Practices
+
+- Linters look at a program's source code and find issues automatically given some requirements
+- "Obvious" bugs don't make it to production
+- Google style guide is a good start
+- Linting can also be automated in the CI
+  - Easy solution in CI: no merging if linting fails
+  - If the code passes the linting, the reviewer doesn't need to worry about small stylistic choices
+  - The CI could also automatically lint the code -- creating a new, linted branched based on the current, non-linted branch
+- Any team with more than one developer working on the same codebase should setup a linter to catch obvious bugs
+
+```yaml
+COPY . .
+RUN npm run lint
+```
