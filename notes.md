@@ -6,6 +6,7 @@
 - Section 4: Code coverage
 - Section 5: Linting best practices
 - Section 6: Ephemeral environments
+- Section 7: VMs vs. Containers
 
 ## Section 1: DevOps Intro
 
@@ -260,3 +261,43 @@ When do you create them and when do you destroy them?
 ### Continuous Staging Definition
 
 - CI/CD is merged with ephemeral environments to form a unified CI/CD and review process for every commit
+
+## Section 7: VMs vs. Containers
+
+- Linux keeps track of 4 things: Memory, CPU (processors), Disk, Devices
+- Linux shares resources across multiple processes, so they can run at the same time
+- VMs and containers are great to solve issues related with the sharing of resources
+  - They allow us to separate different resources
+  - When moving programs into containers or VMs, each program will have its own versoin of shared resources (files and network ports)
+
+### How containers work
+
+- Containers work by creating "namespaces", which are a Linux feature that group shared resources together
+
+  - ```
+    # to check running resources
+    ps aux | wc -1 #
+    ```
+
+- The programs are asking "what are the contents of /usr/lib/python"? And instead of answering truthfully, Linux is answering with: "var/lib/docker/overlayfs/1/usr/lib/python"
+  - This deception allows programs to run in parallel, because Linux'd respond with different files for every container
+
+### How VMs work
+
+- VMs are basically simulators
+- While containers provide a "fake" version of Linux, VMs provide "fake" versions of the CPU, RAM, disk, and devices. Then, VMs "fake" at one level deeper
+- Hypervisor: Similar to Docker, but for VMs
+  - Through VMs, we can run different OS
+
+### VMs vs. Containers Performance
+
+- CPU in VMs is 10-20% slower than containers
+- VMs use 50-100% more storage -- containers don't need all the files the OS would need
+- VMs use ~200mb of memory each for the "inner OS", while containers have essentially no memory overhead
+- Therefore, VMS are slower, need more storage and have memory overhead. Containers are more lightweight
+
+#### When VMs are better than containers
+
+- If you're running untrusted code -- it's difficult to be confident that malicious code can't "escape" a container
+- Running MacOS or Windows within a Linux server
+- Need to emulate hardware devices
