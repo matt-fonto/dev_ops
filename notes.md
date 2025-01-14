@@ -7,6 +7,8 @@
 - Section 5: Linting best practices
 - Section 6: Ephemeral environments
 - Section 7: VMs vs. Containers
+- Section 8: Rolling Deployments
+- Section 9: Blue/green deployments
 
 ## Section 1: DevOps Intro
 
@@ -301,3 +303,14 @@ When do you create them and when do you destroy them?
 - If you're running untrusted code -- it's difficult to be confident that malicious code can't "escape" a container
 - Running MacOS or Windows within a Linux server
 - Need to emulate hardware devices
+
+## Section 8: Rolling deployments
+
+- Rolling deployment: strategy to deploy a new version of an application without downtime
+  - Rolling deployment algorithm:
+    - 1. Create an instance of the new version of the backend
+    - 2. Wait until new copy is up
+    - 3. Delete an instance of the old version of the backend
+    - 4. If any instances of the old version still exist, go back to step 1
+
+## Section 9: Blue/green deployments
