@@ -5,6 +5,7 @@
 - Section 3: CI
 - Section 4: Code coverage
 - Section 5: Linting best practices
+- Section 6: Ephemeral environments
 
 ## Section 1: DevOps Intro
 
@@ -123,6 +124,7 @@ services:
 - Once the application is dockerized, create the github workflow: ./github/workflows/[ci-name].yml
 - Workflow has jobs, jobs have steps and steps have actions
 - This allows us to run a battery of tests on specific events: push, pr, scheduled, etc.
+- Act allows us to run GitHub actions locally: `https://github.com/nektos/act`
 
 ```yml
 # appears in the Actions tab on Github
@@ -173,6 +175,10 @@ jobs:
         run: docker compose down
 ```
 
+### Run github actions locally with Act
+
+- Test github actions without having to push them
+
 ### Yaml
 
 - Yaml is fundamentally a combination of JSON with Python
@@ -221,3 +227,36 @@ jobs:
 COPY . .
 RUN npm run lint
 ```
+
+## Section 6: Ephemeral environments
+
+- Temporary deployments that have a self-contained version of your application, generally every feature branch
+- Valuable DevOps code review experience
+- Halfway between developing enviroments and staging environments
+  - `development | ephemeral | staging`
+- Setting up an ephemeral environment poses state | database challenges
+- Isolated from production environments and only last until the PR does
+- Every time a developer proposes a change, they should get a new db specific for that change
+
+### Benefits
+
+- Accelerates software development lifecycle
+- Changes can be shared with managers and other non-dev stakeholders
+
+### Ephemeral environments and databases
+
+- Prepolulated data: it contains representative, anonymized data -- to pass security audits. Identifiable Information (PII) must be scrubbled from databased to be used
+- Undoable: if data is deleted or modified, it should be easy to reset the database to its original state
+- Migraed: Database uses the schema currently used in production, and has proposed migrations run agains it: one of the most common classes of problems uncovered by ephemeral environments are broken or non-performant database migrations
+
+### Ephemeral environments and lifecycles
+
+When do you create them and when do you destroy them?
+
+- Option A: tie the lifecycle to the life of a PR or merge request
+- Option B: ChatOps that allows creating a new environment for a specific branch with a timeout
+- Option C: Create an eph. environment for every commit and hibernate them once they are provisioned and wake them up when requested
+
+### Continuous Staging Definition
+
+- CI/CD is merged with ephemeral environments to form a unified CI/CD and review process for every commit
