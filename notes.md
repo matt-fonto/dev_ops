@@ -323,3 +323,16 @@ When do you create them and when do you destroy them?
   - It can become problematic in CD scenarios where there are many services being deployed many times per day
 
 ## Section 10: Autoscaling
+
+- Automating horizontal scaling to ensure the number of workers is proportional to the load on the system
+  ![Autoscaling according to the need](image.png)
+
+- During peak time, we should be able to create new ones, while off-peak hours, destroy them
+  - Technologies that do this: AWS EC2 Spot instances, Kubernetes horizontal pod autoscaling
+
+### Serverless vs Autoscaling
+
+- Autoscaling is usually discussed on the timeline of ~1 hour chunks of work.
+- When taking autoscaling to its limit, we'd get serverless: define resources that are quickly started, and use them on the timeline of ~100ms.
+- Serverless is the extreme of autoscaling in implementation and conceptualization
+  - E.G.: a web server might not exist at all until a visitor requests the page. Then, it's spun up specifically and exclusively for that request. It serves the page, then shuts back down.
