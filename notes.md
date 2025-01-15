@@ -412,10 +412,14 @@ chatgpt.com.            38      IN      A       172.64.155.209
 
 ## Section 12: Application performance management
 
-- Log aggregation: collecting and tagging application logs from many services into a single dashboard
+- Application performance management is composed of:
+  1. Log aggregation: collecting different application logs into a centralized place. Deals with texts.
+  2. Metrics monotoring: collects data to identify the health of the application. Deals with numbers.
 
-  - Stage where the product is deployed and you want to keep track that it's working reliably. It's the service analytics
-  - Helps to identify any problems in production
+### 12.1: Log aggregation: collecting and tagging application logs from many services into a single dashboard
+
+- Stage where the product is deployed and you want to keep track that it's working reliably. It's the service analytics
+- Helps to identify any problems in production
 
 - ELK: ElasticSearch + Logstash + Kibana -> open source APM, application performance management
 
@@ -428,3 +432,14 @@ chatgpt.com.            38      IN      A       172.64.155.209
   - DataDog
   - LogDNA
   - AWS CloudWatch logs
+
+## 12.2 Vital production metrics
+
+- For it, we need to understand what are the main aspects of our application and the profile of our users. For example:
+
+  - Request fulfillment times
+  - Request counts
+  - Service resources
+
+- Open-source technologies
+  - Prometheus: one of the most popular metrics services
