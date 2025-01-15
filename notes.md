@@ -10,6 +10,8 @@
 - Section 8: Rolling Deployments
 - Section 9: Blue/green deployments
 - Section 10: Autoscaling
+- Section 11: Service discovery
+- Section 12: Application performance management
 
 ## Section 1: DevOps Intro
 
@@ -336,3 +338,76 @@ When do you create them and when do you destroy them?
 - When taking autoscaling to its limit, we'd get serverless: define resources that are quickly started, and use them on the timeline of ~100ms.
 - Serverless is the extreme of autoscaling in implementation and conceptualization
   - E.G.: a web server might not exist at all until a visitor requests the page. Then, it's spun up specifically and exclusively for that request. It serves the page, then shuts back down.
+
+## Section 11: Service discovery
+
+- A key problem in deployment is getting services to be able to find each other.
+  - DB might be at 10.1.1.1:123 while the webserver is at 10.1.2:999
+- When a user visits a website, the services at play and their connection are:
+
+  1. the browser should know that example.com is at some specific IP
+  2. the browser should knoe that api.example.com is at some other specific IP
+     > browser needs to know the IP address of the DNS and the IP address of the server
+  3. the backend should know that the database is at some specific IP
+     > backend needs to know the IP address of the database
+
+- A simple IP mapping is usually enough for an MVP, however, service discovery becomes important when:
+  1. You want "zero time deployments"
+  2. More than a couple of microservices
+  3. Deploying several environments (dev/staging/ephemeral/production)
+
+### Nginx
+
+- Very popular reverse proxy
+
+### DNS: Domain Name Service
+
+- It maps the name of a website -- human-readable format -- to an actual IP, which represents some random computer somewhere
+- To check the IP of an website, we can: `dig website-dns`, e.g.:`dig google.com`
+
+```bash
+➜  dev_ops git:(main) dig google.com
+
+; <<>> DiG 9.10.6 <<>> google.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 22352
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 512
+;; QUESTION SECTION:
+;google.com.                    IN      A
+
+;; ANSWER SECTION:
+google.com.             228     IN      A       142.251.37.14
+
+;; Query time: 75 msec
+;; SERVER: 192.168.1.1#53(192.168.1.1)
+;; WHEN: Wed Jan 15 20:39:42 CET 2025
+;; MSG SIZE  rcvd: 55
+
+➜  dev_ops git:(main) ✗ dig chatgpt.com
+
+; <<>> DiG 9.10.6 <<>> chatgpt.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 20473
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 512
+;; QUESTION SECTION:
+;chatgpt.com.                   IN      A
+
+;; ANSWER SECTION:
+chatgpt.com.            38      IN      A       104.18.32.47
+chatgpt.com.            38      IN      A       172.64.155.209
+
+;; Query time: 70 msec
+;; SERVER: 192.168.1.1#53(192.168.1.1)
+;; WHEN: Wed Jan 15 20:39:50 CET 2025
+;; MSG SIZE  rcvd: 72
+```
+
+## Section 12: Application performance management
