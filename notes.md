@@ -411,3 +411,20 @@ chatgpt.com.            38      IN      A       172.64.155.209
 ```
 
 ## Section 12: Application performance management
+
+- Log aggregation: collecting and tagging application logs from many services into a single dashboard
+
+  - Stage where the product is deployed and you want to keep track that it's working reliably. It's the service analytics
+  - Helps to identify any problems in production
+
+- ELK: ElasticSearch + Logstash + Kibana -> open source APM, application performance management
+
+  - Logstash: Log processor
+  - Elastic search: Data store
+  - Kibana: frontend log display
+
+- Other APM platforms:
+  - Fluentd
+  - DataDog
+  - LogDNA
+  - AWS CloudWatch logs
