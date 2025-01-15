@@ -9,6 +9,7 @@
 - Section 7: VMs vs. Containers
 - Section 8: Rolling Deployments
 - Section 9: Blue/green deployments
+- Section 10: Autoscaling
 
 ## Section 1: DevOps Intro
 
@@ -306,7 +307,7 @@ When do you create them and when do you destroy them?
 
 ## Section 8: Rolling deployments
 
-- Rolling deployment: strategy to deploy a new version of an application without downtime
+- Rolling deployment: strategy to deploy a new version of an application without downtime by recursively switching previous version to new one
   - Rolling deployment algorithm:
     - 1. Create an instance of the new version of the backend
     - 2. Wait until new copy is up
@@ -314,3 +315,11 @@ When do you create them and when do you destroy them?
     - 4. If any instances of the old version still exist, go back to step 1
 
 ## Section 9: Blue/green deployments
+
+- Blue/green deployment: strategy to deploy an application by starting a new instance of the application and routing traffic over to it
+  - Blue/green create two clusters of the application
+    ![Blue/green deployment](blue_green_deployment.png)
+- Powerful and extensible deployment strategy that works well with teams tat are deploying a few times per day
+  - It can become problematic in CD scenarios where there are many services being deployed many times per day
+
+## Section 10: Autoscaling
