@@ -60,15 +60,17 @@
 ## Syntax
 
 - [1. Name](#workflow-name)
-- 2. Events / Triggers
-- 3. Jobs
-- 4. Steps
-- 5. Environment variables
-- 6. Matrix strategy
+- [2. Events / Triggers](#events)
+- [3. Jobs](#jobs)
+- [4. Steps](#steps)
+- [5. Environment variables](#env-variables)
+- [6. Matrix strategy](#matrix-strategy)
+- [7. Job dependencies](#job-dependencies)
+- [8. Artifacts](#artifacts)
+
+<a id="workflow-name"></a>
 
 ### 1. Define worfklow name
-
-### <a id="workflow-name"></a>
 
 - (optional) sets a name for the workflow
 - Default is the file name if ommitted
@@ -76,6 +78,8 @@
 ```yml
 name: CI/CD Pipeline
 ```
+
+<a id="events"></a>
 
 ### 2. Specify Events (triggers)
 
@@ -98,6 +102,8 @@ on:
     - cron: "0 12 ** 1" # runs every Monday at 12:00 UTC
 ```
 
+<a id="jobs"></a>
+
 ### 3. Define jobs
 
 - jobs: collection of jobs executed in parallel by default
@@ -112,6 +118,8 @@ jobs:
       - name: Checkout code
       - uses: actions/checkout@v4
 ```
+
+<a id="steps"></a>
 
 ### 4. Steps: running commands and actions
 
@@ -136,9 +144,12 @@ steps:
     run: npm test
 ```
 
-5. Environment variables
-   - global `env` applies to the whole job
-   - ${{ secrets.* }} references GitHub secrets for secure credentials
+<a id="env-variables"></a>
+
+### 5. Environment variables
+
+- global `env` applies to the whole job
+- ${{ secrets.* }} references GitHub secrets for secure credentials
 
 ```yaml
 env:
@@ -146,11 +157,47 @@ env:
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
 ```
 
-6. Matrix strategy (parallel testing)
-   - runs the same job multiple times with different configurations
+<a id="matrix-strategy"></a>
+
+### 6. Matrix strategy (parallel testing)
+
+- runs the same job multiple times with different configurations
 
 ```yaml
 strategy:
   matrix:
     node: [16, 18, 20]
+```
+
+<a id="job-dependencies"></a>
+
+### 7. Job Dependencies
+
+```yaml
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      run: echo "Building..."
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build # wait for the 'built' to complete
+    steps:
+      - run: echo "Deploying..."
+```
+
+<a id="artifacts"></a>
+
+### 8. Artifacts
+
+- Stores artifacts from a job for later use
+
+```yaml
+steps:
+  - name: Upload test results
+  uses: actions/upload-artifact@v4
+  with:
+    name: test-results
+    path: ./results
 ```
