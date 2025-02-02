@@ -1,10 +1,9 @@
 name: Dockerized Next.js CI
 
-on:
-  push:
+on: # trigger
+  pull_request: # run only on pull requests to main branch
     branches:
       - main
-  pull_request:
 
 jobs:
   # job 1: build-and-test
