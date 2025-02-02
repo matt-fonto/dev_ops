@@ -59,24 +59,31 @@
 
 ## Syntax
 
-- Name
-- Events / Triggers
-- Jobs
+- [1. Name](#workflow-name)
+- 2. Events / Triggers
+- 3. Jobs
+- 4. Steps
+- 5. Environment variables
+- 6. Matrix strategy
 
-1. Define worfklow name
-   - (optional) sets a name for the workflow
-   - Default is the file name if ommitted
+### 1. Define worfklow name
+
+### <a id="workflow-name"></a>
+
+- (optional) sets a name for the workflow
+- Default is the file name if ommitted
 
 ```yml
 name: CI/CD Pipeline
 ```
 
-2. Specify Events (triggers)
-   - Supports triggers:
-     - push
-     - pull_request
-     - schedule
-     - worfklow_dispatch
+### 2. Specify Events (triggers)
+
+- Supports triggers:
+  - push
+  - pull_request
+  - schedule
+  - worfklow_dispatch
 
 ```yml
 on:
@@ -91,10 +98,11 @@ on:
     - cron: "0 12 ** 1" # runs every Monday at 12:00 UTC
 ```
 
-3. Define jobs
-   - jobs: collection of jobs executed in parallel by default
-   - runs-on: defines the OS (ubuntu-latest, macos-latest, windows-latest)
-   - steps: tasks executed inside the job
+### 3. Define jobs
+
+- jobs: collection of jobs executed in parallel by default
+- runs-on: defines the OS (ubuntu-latest, macos-latest, windows-latest)
+- steps: tasks executed inside the job
 
 ```yaml
 jobs:
@@ -105,10 +113,11 @@ jobs:
       - uses: actions/checkout@v4
 ```
 
-4. Steps: running commands anc actions
-   - uses: calls pre-built gh actions
-   - run: executes shell commands
-   - with: provides input paramters to actions
+### 4. Steps: running commands and actions
+
+- uses: calls pre-built gh actions
+- run: executes shell commands
+- with: provides input paramters to actions
 
 ```yaml
 steps:
@@ -128,9 +137,20 @@ steps:
 ```
 
 5. Environment variables
+   - global `env` applies to the whole job
+   - ${{ secrets.* }} references GitHub secrets for secure credentials
 
 ```yaml
 env:
   NODE_ENV: production
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
+```
+
+6. Matrix strategy (parallel testing)
+   - runs the same job multiple times with different configurations
+
+```yaml
+strategy:
+  matrix:
+    node: [16, 18, 20]
 ```
