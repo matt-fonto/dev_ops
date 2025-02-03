@@ -67,8 +67,10 @@
 - [6. Matrix strategy](#matrix-strategy)
 - [7. Job dependencies](#job-dependencies)
 - [8. Artifacts](#artifacts)
+- [9. Workflow concurrency](#workflow-conc)
+- [10. Reusable workflows](#reusable-workflows)
 
-<a id="workflow-name"></a>
+  <a id="workflow-name"></a>
 
 ### 1. Define worfklow name
 
@@ -81,7 +83,7 @@ name: CI/CD Pipeline
 
 <a id="events"></a>
 
-### 2. Specify Events (triggers)
+### 2. Events / Triggers
 
 - Supports triggers:
   - push
@@ -201,3 +203,38 @@ steps:
     name: test-results
     path: ./results
 ```
+
+<a id="workflow-conc"></a>
+
+### 9. Workflow concurrency
+
+- Prevents multiple workflow runs on the same branch at the same time
+
+```yml
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+```
+
+<a id="reusable-workflows"></a>
+
+### 10. Reusable workflows
+
+- Allows reusing workflows accross repositories
+
+```yml
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        required: true
+        type: string
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Running with Node.js ${{ inputs.node-version }}"
+```
+
+GitHub actions and shell scripts?
