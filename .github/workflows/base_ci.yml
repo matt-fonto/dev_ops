@@ -13,8 +13,19 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Install Dependencies
-        run: npm install
+      - name: Build and Start Services
+        run: docker compose up -d --build
 
-      - name: Run App
-        run: npm run dev
+      - name: Wait for App to be Ready
+        run: |
+          for i in {1..10}; do
+            curl -s http://web:3000 && break
+            echo "Waiting for app..."
+            sleep 3
+          done
+
+      - name: Run Tests
+        run: curl -f http://web:3000 || exit 1
+
+      - name: Stop and Clean Up
+        run: docker compose down
