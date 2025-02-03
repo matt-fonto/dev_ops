@@ -1,10 +1,12 @@
 name: Dockerized Next.js CI
 
+# events
 on:
   pull_request:
     branches:
       - main
 
+# a group of actions
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -13,6 +15,7 @@ jobs:
       # secrets.SECRET_NAME
       ENV_VAR: ${{ secrets.GITHUB_TOKEN }}
 
+    # actions
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4

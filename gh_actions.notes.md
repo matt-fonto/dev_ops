@@ -1,7 +1,14 @@
 # Github Actions
 
-1. Create the .github/workflows/<filename>.cy
-2. Decide the config
+## Intro
+
+- GH Actions: platform to automate developer workflows
+- To create a GH action, you simply create the .github/workflows/<filename>.cy
+- Listen to event (GH Events) -> Trigger workflow (GH Actions)
+
+### Workflows
+
+- CI/CD Pipeline: Merge the code > test > build > deploy
 
 ## Characteristics
 
