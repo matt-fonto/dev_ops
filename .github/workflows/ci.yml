@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      ENV_VAR: "test"
+      # secrets.SECRET_NAME
+      ENV_VAR: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout Code

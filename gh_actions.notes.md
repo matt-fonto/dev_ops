@@ -159,6 +159,8 @@ env:
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
 ```
 
+- To set them up: project > settings > environments > add new secret
+
 <a id="matrix-strategy"></a>
 
 ### 6. Matrix strategy (parallel testing)
