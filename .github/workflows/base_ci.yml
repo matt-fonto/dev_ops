@@ -29,3 +29,17 @@ jobs:
 
       - name: Stop and Clean Up
         run: docker compose down
+
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build and Push Image
+        run: |
+          echo ${{ secrets.DOCKER_PASSWORD }} | docker login ghcr.io -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          docker build -t ghcr.io/${{ secrets.DOCKER_USERNAME }}/dev-ops-nextjs .
+          docker push ghcr.io/${{ secrets.DOCKER_USERNAME }}/dev-ops-nextjs
